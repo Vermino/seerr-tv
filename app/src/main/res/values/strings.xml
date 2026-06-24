@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Seerr</string>
+    <string name="setup_title">Connect to your server</string>
+    <string name="setup_subtitle">Enter the address of your Jellyseerr or Seerr server. This is the same URL you open in a web browser.</string>
+    <string name="setup_hint">http://192.168.1.50:5055</string>
+    <string name="setup_helper">Tip: include the port (for example :5055). Plain http on your home network is fine.</string>
+    <string name="setup_connect">Connect</string>
+    <string name="setup_error_empty">Please enter your server address.</string>
+    <string name="setup_error_invalid">That doesn\'t look like a valid address. Example: http://192.168.1.50:5055</string>
+
+    <string name="menu_title">Seerr</string>
+    <string name="menu_reload">Reload page</string>
+    <string name="menu_home">Go to start page</string>
+    <string name="menu_change_server">Change server</string>
+    <string name="menu_help">How to use the remote</string>
+    <string name="menu_exit">Close app</string>
+
+    <string name="help_text">Use the direction pad to move the highlight between buttons, links, posters and the sidebar.\nPress center / OK to select.\nText boxes open the on-screen keyboard; press BACK to close it.\nBACK goes back a page, then to the sidebar, then exits the app.\nHold BACK (or press MENU) for options such as Change server.</string>
+
+    <string name="error_title">Can\'t reach the server</string>
+    <string name="error_body">Make sure the server is on and the address is correct, then try again.</string>
+    <string name="error_retry">Retry</string>
+    <string name="error_change">Change server</string>
+    <string name="ok">OK</string>
+    <string name="exit_hint">Press BACK again to exit Seerr</string>
+</resources>

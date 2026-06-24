@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <!-- Self-hosted servers are commonly reached over plain http on a LAN, so cleartext is
+         permitted. Trust is restricted to the system CA store: a self-hosted server with a
+         self-signed / internal-CA certificate is still reachable, but it falls through to the
+         per-host TLS-error prompt in WebActivity (scoped to the configured server host) rather
+         than being trusted silently. The user CA store is intentionally NOT a trust anchor here,
+         so an attacker-installed CA cannot transparently MITM the third-party origins the UI
+         loads (Plex sign-in, TMDB images, YouTube trailers). -->
+    <base-config cleartextTrafficPermitted="true">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+</network-security-config>

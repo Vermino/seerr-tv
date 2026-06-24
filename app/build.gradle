@@ -1,0 +1,80 @@
+plugins {
+    id 'com.android.application'
+}
+
+def keystorePropsFile = rootProject.file("keystore.properties")
+def keystoreProps = new Properties()
+if (keystorePropsFile.exists()) {
+    keystoreProps.load(new FileInputStream(keystorePropsFile))
+}
+
+def versionPropsFile = rootProject.file("version.properties")
+def versionProps = new Properties()
+if (versionPropsFile.exists()) {
+    versionProps.load(new FileInputStream(versionPropsFile))
+}
+def appVersionCode = Integer.parseInt(versionProps.getProperty('VERSION_CODE', '1').trim())
+def appVersionName = versionProps.getProperty('VERSION_NAME', '1.0').trim()
+
+android {
+    namespace 'com.seerr.tv'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.seerr.tv"
+        minSdk 21
+        targetSdk 34
+        versionCode appVersionCode
+        versionName appVersionName
+    }
+
+    signingConfigs {
+        release {
+            enableV1Signing true   // required to install on minSdk 21 devices
+            enableV2Signing true
+            enableV3Signing true   // emits a v3 block so a FUTURE key rotation can be honored
+            if (keystorePropsFile.exists()) {
+                storeFile rootProject.file(keystoreProps['storeFile'])
+                storePassword keystoreProps['storePassword']
+                keyAlias keystoreProps['keyAlias']
+                keyPassword keystoreProps['keyPassword']
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            // Fall back to debug signing only if the keystore is absent, so the
+            // build never fails for someone who cloned without the key.
+            signingConfig keystorePropsFile.exists() ? signingConfigs.release : signingConfigs.debug
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    lint {
+        // Sideloaded app; don't fail the build on cosmetic resource lint.
+        checkReleaseBuilds false
+        abortOnError false
+    }
+}
+
+configurations.all {
+    // Some AndroidX transitive deps drag in the pre-merge kotlin-stdlib-jdk7/jdk8
+    // artifacts, which collide with the modern kotlin-stdlib. Align them all.
+    resolutionStrategy.eachDependency { details ->
+        if (details.requested.group == 'org.jetbrains.kotlin'
+                && details.requested.name.startsWith('kotlin-stdlib')) {
+            details.useVersion '1.9.24'
+        }
+    }
+}
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+}

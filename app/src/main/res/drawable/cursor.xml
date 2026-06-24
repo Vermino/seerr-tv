@@ -1,0 +1,13 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="44dp"
+    android:height="44dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <!-- Classic arrow pointer: white fill with a dark outline so it stays
+         visible over any page content. -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:strokeColor="#1A1A1A"
+        android:strokeWidth="1.1"
+        android:pathData="M4,1.5 L4,19.5 L8.6,15 L11.7,21.6 L14.2,20.4 L11.2,13.9 L17.4,13.9 Z" />
+</vector>

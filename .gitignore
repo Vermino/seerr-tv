@@ -1,0 +1,19 @@
+# Android / Gradle build artifacts
+.gradle/
+build/
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Machine-specific
+local.properties
+*.iml
+.idea/
+
+# Signing secrets - NEVER commit (this project lives inside a public repo).
+# Keep seerr-release.jks and keystore.properties only on the build machine /
+# in CI secrets. The build falls back to debug signing when they are absent.
+keystore/
+keystore.properties
+*.jks
+*.keystore

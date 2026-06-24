@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/seerr_accent</item>
+        <item name="colorPrimaryDark">@color/seerr_bg</item>
+        <item name="colorAccent">@color/seerr_accent</item>
+        <item name="android:windowBackground">@color/seerr_bg</item>
+        <item name="android:statusBarColor">@color/seerr_bg</item>
+        <item name="android:navigationBarColor">@color/seerr_bg</item>
+        <item name="android:textColorPrimary">@color/seerr_text</item>
+        <item name="android:textColorHint">@color/seerr_text_dim</item>
+    </style>
+
+    <style name="AppTheme.Web">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowBackground">@color/seerr_bg</item>
+    </style>
+</resources>
