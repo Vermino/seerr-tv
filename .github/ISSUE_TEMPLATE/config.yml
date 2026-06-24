@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Jellyseerr / Seerr server issues
+    url: https://github.com/fallenbagel/jellyseerr/issues
+    about: Problems with the server, web UI, requests or media data are server-side — report them upstream to Jellyseerr/Seerr.

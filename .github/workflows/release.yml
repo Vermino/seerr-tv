@@ -1,0 +1,71 @@
+name: Release APK
+
+# Builds a signed release APK and attaches it to the GitHub Release when you push
+# a version tag (e.g. `git tag v1.6 && git push origin v1.6`).
+#
+# Signing requires these repository secrets (Settings -> Secrets and variables -> Actions):
+#   KEYSTORE_BASE64          base64 of keystore/seerr-release.jks  (base64 -w0 seerr-release.jks)
+#   KEYSTORE_STORE_PASSWORD  store password
+#   KEYSTORE_KEY_PASSWORD    key password
+#   KEYSTORE_KEY_ALIAS       key alias (e.g. seerr)
+# If the secrets are absent, the build falls back to a DEBUG-signed APK (do not distribute).
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: gradle
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Decode signing keystore
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          STORE_PW: ${{ secrets.KEYSTORE_STORE_PASSWORD }}
+          KEY_PW: ${{ secrets.KEYSTORE_KEY_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEYSTORE_KEY_ALIAS }}
+        run: |
+          if [ -z "$KEYSTORE_BASE64" ]; then
+            echo "::warning::No signing secrets set — building a DEBUG-signed APK (do not distribute)."
+            exit 0
+          fi
+          mkdir -p keystore
+          printf '%s' "$KEYSTORE_BASE64" | base64 -d > keystore/seerr-release.jks
+          printf 'storeFile=keystore/seerr-release.jks\nstorePassword=%s\nkeyAlias=%s\nkeyPassword=%s\n' \
+            "$STORE_PW" "$KEY_ALIAS" "$KEY_PW" > keystore.properties
+
+      - name: Build release APK
+        run: |
+          chmod +x ./gradlew
+          ./gradlew assembleRelease --no-daemon
+
+      - name: Stage versioned APK
+        id: stage
+        run: |
+          VER=$(grep '^VERSION_NAME=' version.properties | cut -d= -f2 | tr -d '[:space:]')
+          cp app/build/outputs/apk/release/app-release.apk "seerr-tv-v${VER}.apk"
+          echo "apk=seerr-tv-v${VER}.apk" >> "$GITHUB_OUTPUT"
+
+      - name: Publish to GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ${{ steps.stage.outputs.apk }}
+          fail_on_unmatched_files: true
+          generate_release_notes: true

@@ -18,6 +18,15 @@ remembers it.
 
 ---
 
+## Screenshots
+
+_Coming soon — captured from an ONN Pro 4K._
+<!-- Drop PNGs in .github/assets/screenshots/ and reference them here, e.g.:
+<p align="center"><img src=".github/assets/screenshots/home.png" width="640" alt="Home"></p>
+-->
+
+---
+
 ## Supported devices
 
 | Device | OS | Supported? |
@@ -171,6 +180,12 @@ keystore and its password file are git-ignored and are **never** committed.
   phone column. To change it, see `DESKTOP_CSS_WIDTH` in `WebActivity.java`.
 
 ---
+
+## Contributing
+
+Issues and PRs are welcome — see [CONTRIBUTING.md](./CONTRIBUTING.md). Security reports go
+through [SECURITY.md](./SECURITY.md) (private vulnerability reporting). Release history is in
+[CHANGELOG.md](./CHANGELOG.md).
 
 ## License
 
